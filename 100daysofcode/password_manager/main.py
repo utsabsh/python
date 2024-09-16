@@ -4,55 +4,69 @@ from random import choice, randint, shuffle
 import pyperclip
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
-
-#Password Generator Project
+# Password Generator Project
 def generate_password():
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    # List of letters, numbers, and symbols to construct the password
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+               'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
+    # Randomly select letters, symbols, and numbers for the password
     password_letters = [choice(letters) for _ in range(randint(8, 10))]
     password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
     password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
 
+    # Combine all parts and shuffle the list to mix the characters
     password_list = password_letters + password_symbols + password_numbers
     shuffle(password_list)
 
+    # Convert the list into a string
     password = "".join(password_list)
+    
+    # Insert the generated password into the password entry field
     password_entry.insert(0, password)
+    
+    # Copy the generated password to the clipboard
     pyperclip.copy(password)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
-
+    # Get the website, email, and password entered by the user
     website = website_entry.get()
     email = email_entry.get()
     password = password_entry.get()
 
+    # If any of the fields are empty, show a message box warning
     if len(website) == 0 or len(password) == 0:
         messagebox.showinfo(title="Oops", message="Please make sure you haven't left any fields empty.")
     else:
+        # Confirm with the user if the entered details are correct
         is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered: \nEmail: {email} "
                                                       f"\nPassword: {password} \nIs it ok to save?")
         if is_ok:
+            # If confirmed, write the details to a file
             with open("data.txt", "a") as data_file:
                 data_file.write(f"{website} | {email} | {password}\n")
-                website_entry.delete(0, END)
-                password_entry.delete(0, END)
+            
+            # Clear the input fields for the next entry
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
-
+# Create a window for the password manager
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50)
 
+# Set up the canvas with a logo image
 canvas = Canvas(height=200, width=200)
-logo_img = PhotoImage(file="logo.png")
+logo_img = PhotoImage(file="logo.png")  # Assuming a "logo.png" file is present
 canvas.create_image(100, 100, image=logo_img)
 canvas.grid(row=0, column=1)
 
-#Labels
+# Labels for website, email, and password fields
 website_label = Label(text="Website:")
 website_label.grid(row=1, column=0)
 email_label = Label(text="Email/Username:")
@@ -60,20 +74,24 @@ email_label.grid(row=2, column=0)
 password_label = Label(text="Password:")
 password_label.grid(row=3, column=0)
 
-#Entries
+# Entry fields for website, email, and password
 website_entry = Entry(width=35)
 website_entry.grid(row=1, column=1, columnspan=2)
-website_entry.focus()
+website_entry.focus()  # Focus on the website field initially
+
 email_entry = Entry(width=35)
 email_entry.grid(row=2, column=1, columnspan=2)
-email_entry.insert(0, "angela@gmail.com")
+email_entry.insert(0, "angela@gmail.com")  # Default email address
+
 password_entry = Entry(width=21)
 password_entry.grid(row=3, column=1)
 
-# Buttons
+# Buttons for generating a password and adding the entry
 generate_password_button = Button(text="Generate Password", command=generate_password)
 generate_password_button.grid(row=3, column=2)
+
 add_button = Button(text="Add", width=36, command=save)
 add_button.grid(row=4, column=1, columnspan=2)
 
+# Start the main event loop of the application
 window.mainloop()
