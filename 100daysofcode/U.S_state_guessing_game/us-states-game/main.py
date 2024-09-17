@@ -3,15 +3,15 @@ import pandas
 
 screen=turtle.Screen()
 screen.title("U.S State Game")
-image="us-states-game\states.gif"
+image="states.gif"
 screen.addshape(image)
 
-turtle.shape(image)
+# turtle.shape(image)
 # def get_mouse_click_coor(x,y):
 #     print(x,y)
 # turtle.onscreenclick(get_mouse_click_coor)
 # turtle.mainloop()
-data = pandas.read_csv("us-states-game/50_states.csv")
+data = pandas.read_csv("50_states.csv")
 all_states=data.state.tolist()
 guessed_states=[]
 
@@ -36,6 +36,6 @@ data_dict={
     
 }  
 df=pandas.DataFrame(data_dict)
-df.to_csv("us-states-game/learn.csv")
+df.to_csv("learn.csv")
 
 
