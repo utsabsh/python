@@ -1,38 +1,33 @@
-#Password Generator Project
 import random
-letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+# Define character pools
+letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+numbers = "0123456789"
+symbols = "!#$%&()*+"
 
 print("Welcome to the PyPassword Generator!")
-nr_letters= int(input("How many letters would you like in your password?\n")) 
-nr_symbols = int(input(f"How many symbols would you like?\n"))
-nr_numbers = int(input(f"How many numbers would you like?\n"))
 
-#Eazy Level - Order not randomised:
+# Get user input
+nr_letters = int(input("How many letters would you like in your password?\n"))
+nr_symbols = int(input("How many symbols would you like?\n"))
+nr_numbers = int(input("How many numbers would you like?\n"))
 
-password = ""
-for char in range(1, nr_letters + 1):
-    password = password + random.choice(letters)
-for char in range(1, nr_letters + 1):
-    password = password + random.choice(symbols)
-for char in range(1, nr_letters + 1):
-    password = password + random.choice(numbers)
-print(password)
+# Generate password parts
+password_easy = (
+    "".join(random.choices(letters, k=nr_letters)) +
+    "".join(random.choices(symbols, k=nr_symbols)) +
+    "".join(random.choices(numbers, k=nr_numbers))
+)
+print(f"Easy Password (Ordered): {password_easy}")
 
-#Hard Level - Order of characters randomised:
-
-
-password_list = []
-for char in range(1, nr_letters + 1):
-    password_list.append(random.choice(letters))
-for char in range(1, nr_symbols + 1):
-    password_list.append(random.choice(symbols))
-for char in range(1, nr_numbers + 1):
-    password_list.append(random.choice(numbers))
+# Hard Level - Randomized order
+password_list = (
+    random.choices(letters, k=nr_letters) +
+    random.choices(symbols, k=nr_symbols) +
+    random.choices(numbers, k=nr_numbers)
+)
 random.shuffle(password_list)
-password = ""
+password_hard = "".join(password_list)
 
-for i in range(1, len(password_list)):
-    password += str(password_list[i])
-print(f"your password is {password}")
+print(f"Hard Password (Shuffled): {password_hard}")
+S
